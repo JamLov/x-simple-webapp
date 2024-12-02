@@ -1,0 +1,19 @@
+version: "3.9"  # Specify the Docker Compose file version
+
+services:
+  web-app:
+    #image: xsimplewebapp:latest
+    build: backend/.
+    ports:
+      - "8888:8080"  # Expose port 80 on the host machine, mapping to port 80 in the container
+    depends_on:
+      - mysql  # Ensure the mysql container starts before the web-app container
+    env_file:
+      - .env
+
+  mysql:
+    build: mysql/.
+    env_file:
+      - .env
+    volumes:
+      - /mysql_data:/var/lib/mysql  # Persist MySQL data in a named volume
